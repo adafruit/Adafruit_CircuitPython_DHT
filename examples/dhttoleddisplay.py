@@ -36,10 +36,8 @@ while True:
         display.show_str(0,'{:5.1f}{:5.1f}'.format(temperature, humidity))
         display.show()
 
-        time.sleep(2.0)
-
     except RuntimeError as error:
         print(error.args)
-        time.sleep(0.5)
 
+    time.sleep(2.0)
     
