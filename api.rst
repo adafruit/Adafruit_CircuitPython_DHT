@@ -2,5 +2,5 @@
 DHT Libary Documentation
 ============================
 
-.. automodule:: adafruit_dhtlib
+.. automodule:: adafruit_dht
    :members:

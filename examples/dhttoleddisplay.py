@@ -5,7 +5,7 @@ the DHT device data wire is connected to board.D2
 """
 # import for dht devices
 import time
-import adafruit_dhtlib
+import adafruit_dht
 from board import D2
 
 #imports for 7-segment display device
@@ -22,7 +22,7 @@ display = bcddigits.BCDDigits(spi, cs, nDigits=8)
 display.brightness(5)
 
 #initial the dht device
-dhtDevice = adafruit_dhtlib.DHT22(D2)
+dhtDevice = adafruit_dht.DHT22(D2)
 
 while True:
     try:

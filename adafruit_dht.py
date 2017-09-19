@@ -30,8 +30,11 @@ CircuitPython support for the DHT11 and DHT22 temperature and humidity devices.
 
 import array
 import time
-import pulseio
-
+try:
+    import pulseio
+except ImportError:
+    print("adafruit_dhtlib requires the pulseio library, but it failed to load."+
+        "  Note that CircuitPython does not support pulseio on all boards.")
 
 class DHTBase:
     """ base support for DHT11 and DHT22 devices
@@ -66,9 +69,9 @@ class DHTBase:
 
         stop is the index to convert upto but not including
 
-        Returns an integer containing the converted 1 and 0 bites
+        Returns an integer containing the converted 1 and 0 bits
         """
-        # humidity 16 bites
+        
         binary = 0
         hi_sig = False
         for bit_inx in range(start, stop):
@@ -99,20 +102,20 @@ class DHTBase:
         with pulseio.PulseIn(self._pin, 81, True) as pulse_in:
 
             # The DHT type device use a specialize 1-wire protocol
-            # The microprocess first sends a LOW signal for a
-            # specific length of time.  Then the device send back a
-            # series HIGH and LOW signals.  The length the signals
-            # determine the device values.
+            # The microprocessor first sends a LOW signal for a
+            # specific length of time.  Then the device sends back a
+            # series HIGH and LOW signals.  The length the HIGH signals
+            # represents the device values.
             pulse_in.pause()
             pulse_in.clear()
             pulse_in.resume(self._trig_wait)
 
             # loop until we get the return pulse we need or
-            # time out after 2 seconds
+            # time out after 1/2 seconds
             while True:
                 if len(pulse_in) >= 80:
                     break
-                if time.monotonic()-tmono > 0.5: # time out after 2 seconds
+                if time.monotonic()-tmono > 0.5: # time out after 1/2 seconds
                     break
 
             pulse_in.pause()
@@ -140,7 +143,7 @@ class DHTBase:
                 buf = array.array('B')
                 for byte_start in range(0, 80, 16):
                     buf.append(self._pulses_to_binary(pulses, byte_start, byte_start+16))
-                #print(bites)
+                #print(buf)
 
                 # humidity is 2 bytes
                 if self._dht11:
