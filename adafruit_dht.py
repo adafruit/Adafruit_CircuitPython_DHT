@@ -32,9 +32,10 @@ import array
 import time
 try:
     import pulseio
-except ImportError:
+except ImportError as excpt:
     print("adafruit_dhtlib requires the pulseio library, but it failed to load."+
         "  Note that CircuitPython does not support pulseio on all boards.")
+    raise excpt
 
 class DHTBase:
     """ base support for DHT11 and DHT22 devices
@@ -71,7 +72,7 @@ class DHTBase:
 
         Returns an integer containing the converted 1 and 0 bits
         """
-        
+
         binary = 0
         hi_sig = False
         for bit_inx in range(start, stop):
