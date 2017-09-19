@@ -33,7 +33,7 @@ import time
 try:
     import pulseio
 except ImportError as excpt:
-    print("adafruit_dhtlib requires the pulseio library, but it failed to load."+
+    print("adafruit_dht requires the pulseio library, but it failed to load."+
         "  Note that CircuitPython does not support pulseio on all boards.")
     raise excpt
 
