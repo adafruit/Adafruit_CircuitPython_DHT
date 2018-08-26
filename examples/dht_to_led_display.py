@@ -35,6 +35,6 @@ while True:
         display.show()
 
     except RuntimeError as error:
-        print(error.args)
+        print(error.args[0])
 
     time.sleep(2.0)
