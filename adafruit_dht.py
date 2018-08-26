@@ -146,7 +146,8 @@ class DHTBase:
                         transitions.append(time.monotonic()) # save the timestamp
                 # convert transtions to microsecond delta pulses:
                 for i in range(1, len(transitions)):
-                    pulses.append(int(1000000 * (transitions[i] - transitions[i-1])))
+                    pulses_micro_sec = int(1000000 * (transitions[i] - transitions[i-1]))
+                    pulses.append(min(pulses_micro_sec, 65535))
         return pulses
 
     def measure(self):
