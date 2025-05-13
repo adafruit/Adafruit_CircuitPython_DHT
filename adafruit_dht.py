@@ -29,7 +29,8 @@ CircuitPython support for the DHT11 and DHT22 temperature and humidity devices.
 import array
 import time
 from os import uname
-from digitalio import DigitalInOut, Pull, Direction
+
+from digitalio import DigitalInOut, Direction, Pull
 
 _USE_PULSEIO = False
 try:
@@ -42,6 +43,7 @@ except (ImportError, NotImplementedError):
 try:
     # Used only for typing
     from typing import Union
+
     from microcontroller import Pin
 except ImportError:
     pass
@@ -62,13 +64,7 @@ class DHTBase:
     __hiLevel = 51
 
     def __init__(
-        self,
-        dht11: bool,
-        pin: Pin,
-        trig_wait: int,
-        use_pulseio: bool,
-        *,
-        max_pulses: int = 81
+        self, dht11: bool, pin: Pin, trig_wait: int, use_pulseio: bool, *, max_pulses: int = 81
     ):
         self._dht11 = dht11
         self._pin = pin

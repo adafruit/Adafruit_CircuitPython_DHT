@@ -51,10 +51,8 @@ for milliseconds in range(min_time, max_time, time_increment):
     # Instantiate the DHT11 object.
     dhtDevice = adafruit_dht.DHT11(pin=getattr(board, pin_to_use))
     # Change the default wait time for triggering the read.
-    # pylint: disable=protected-access
     dhtDevice._trig_wait = milliseconds
 
-    # pylint: disable=protected-access
     print(f"Using 'trig_wait' of {dhtDevice._trig_wait}")
     # Reset the read count for next loop
     reads_count = 0
@@ -75,7 +73,7 @@ for milliseconds in range(min_time, max_time, time_increment):
                 reads[milliseconds][try_number] = read_values
 
             reads_count += 1
-        except RuntimeError as e:
+        except RuntimeError:
             time.sleep(2)
         else:
             time.sleep(1)
@@ -86,15 +84,10 @@ for milliseconds in range(min_time, max_time, time_increment):
     dhtDevice.exit()
 
 # Gather the highest read numbers from all reads done.
-best_result = max(
-    reads[milliseconds]["total_reads"]
-    for milliseconds in reads  # pylint: disable=consider-using-dict-items
-)
+best_result = max(reads[milliseconds]["total_reads"] for milliseconds in reads)
 # Gather best time(s) in milliseconds where we got more reads
 best_times = [
-    milliseconds
-    for milliseconds in reads  # pylint: disable=consider-using-dict-items
-    if reads[milliseconds]["total_reads"] == best_result
+    milliseconds for milliseconds in reads if reads[milliseconds]["total_reads"] == best_result
 ]
 print(
     f"Maximum reads: {best_result}  out of {max_retries_per_time} with the "
