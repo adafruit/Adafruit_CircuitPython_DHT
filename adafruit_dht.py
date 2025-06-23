@@ -46,7 +46,10 @@ try:
 
     from microcontroller import Pin
 except ImportError:
-    pass
+    try:
+        from adafruit_blinka.microcontroller.generic_linux.rpi_gpio_pin import Pin
+    except ImportError:
+        pass
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_DHT.git"
